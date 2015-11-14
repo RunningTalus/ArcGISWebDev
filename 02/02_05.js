@@ -29,7 +29,6 @@ require([
 
         on(dom.byId('drawPolygon'), 'click', function() {
             drawToolbar.activate(Draw.POLYGON);
-
         });
 
 });
