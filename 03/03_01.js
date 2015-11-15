@@ -25,7 +25,7 @@ require([
         center: [-122.4348, 37.7582],
         zoom: 13
     });
-    geometryService = new GeometryService('http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer');
+    geometryService = new GeometryService('http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer');  // Indicates geometry service task provided in ArcGIS JavaScript API
     featureLayer = new FeatureLayer('http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Demographics/ESRI_Census_USA/MapServer/1', {
         mode: FeatureLayer.MODE_SELECTION,
         outFields: ["*"]
@@ -34,8 +34,8 @@ require([
     map.addLayer(featureLayer);
 
     map.on('load', function() {
-        drawTool = new Draw(map);
-        on(drawTool, 'draw-end', function(evt) {
+        drawTool = new Draw(map);                 // Initializes Draw Toolbar
+        on(drawTool, 'draw-end', function(evt) {  // Listens for when Draw Toolbar finishes drawing
             var geometry, ptSymbol, params, fill;
             drawTool.deactivate();
             geometry = evt.geometry;
@@ -43,15 +43,15 @@ require([
                 10,
                 null,
                 new Color([255,0,0,1]));
-            params = new BufferParameters();
+            params = new BufferParameters();  // Initializes BufferParameters object for geometry service
 
             map.graphics.add(new Graphic(geometry, ptSymbol));
 
             params.geometries = [geometry];
-            params.distances = [1];
+            params.distances = [1];                      // Indicates buffer of 1 kilometer
             params.unit = GeometryService.UNIT_KILOMETER;
             params.outSpatialReference = map.spatialReference;
-            geometryService.buffer(params, function(geometries) {
+            geometryService.buffer(params, function(geometries) {  // Uses Buffer method provided in the ArcGIS JavaScript API
                 console.log('buffered', geometries);
                 fill = new symbol.SimpleFillSymbol(
                     symbol.SimpleFillSymbol.STYLE_SOLID,
@@ -60,7 +60,7 @@ require([
                         new Color([255,0,0,0.65]), 2),
                     new Color([255,0,0,0.35]));
                 arrayUtils.forEach(geometries, function(geom) {
-                    map.graphics.add(new Graphic(geom, fill));
+                    map.graphics.add(new Graphic(geom, fill));  // Adds buffered area to map
                     var query = new Query();
                     query.geometry = geom;
                 });
