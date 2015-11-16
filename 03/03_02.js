@@ -72,9 +72,9 @@ require([
     });
     function intersectGeometries() {
         var inputGeomertry = geometryArray[0],
-            targetGeometry = geometryArray[1];
+            targetGeometry = geometryArray[1]; // Requires array of geometries and target geometry
         geometryArray = [];
-        geometryService.intersect([inputGeomertry], targetGeometry).then(function (geometries) {
+        geometryService.intersect([inputGeomertry], targetGeometry).then(function (geometries) {  // Performs intersection and adds result
             map.graphics.clear();
             var fill = new symbol.SimpleFillSymbol(
                 symbol.SimpleFillSymbol.STYLE_SOLID,
